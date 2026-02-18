@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Android Project - Step by Step Code</title>
+
+    <!-- Pretty Code Highlighting -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1e1e1e;
+            color: white;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #00eaff;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        pre {
+            border-radius: 10px;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Android Project - Step by Step Code</h1>
+
+<!-- 1. JAVA ACTIVITY -->
+<div class="section">
+    <h2>1️⃣ Java Activity (index.java)</h2>
+    <pre><code class="language-java">
+package com.symbiosis.myfrstproject_it;
+
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class index extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // This line links the Java code to your XML layout
+        setContentView(R.layout.activity_index);
+    }
+}
+    </code></pre>
+</div>
+
+<!-- 2. XML LAYOUT -->
+<div class="section">
+    <h2>2️⃣ Layout File (activity_index.xml)</h2>
+    <pre><code class="language-xml">
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/myTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_message" />
+
+</RelativeLayout>
+    </code></pre>
+</div>
+
+<!-- 3. ANDROID MANIFEST -->
+<div class="section">
+    <h2>3️⃣ AndroidManifest.xml</h2>
+    <pre><code class="language-xml">
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MyFrstProjectIT">
+
+        <activity android:name=".MainActivity"
+            android:exported="false" />
+
+        <activity android:name=".index"
+            android:exported="true"
+            android:theme="@style/Theme.MyFrstProjectIT">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+    </application>
+
+</manifest>
+    </code></pre>
+</div>
+
+<!-- 4. STRINGS.XML -->
+<div class="section">
+    <h2>4️⃣ strings.xml</h2>
+    <pre><code class="language-xml">
+<resources>
+    <string name="app_name">My Frst Project-IT</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_message">Hello from Android!</string>
+</resources>
+    </code></pre>
+</div>
+
+</body>
+</html>
