@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Android Project — Step by Step</title>
+  <title>Android Project — Step by Step (Readable Light Theme)</title>
 
   <!-- Highlight.js (Light Theme) -->
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script>window.addEventListener('DOMContentLoaded', () => hljs.highlightAll());</script>
 
+  <!-- Icons for copy buttons -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <style>
     :root {
       --bg: #ffffff;
@@ -19,10 +20,11 @@
       --card: #f7f9fc;
       --border: #e5e7eb;
       --radius: 14px;
+      --code-bg: #fff;
     }
     * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
     body {
-      margin: 0;
       background: var(--bg);
       color: var(--text);
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji",
@@ -31,7 +33,7 @@
     }
     header {
       position: sticky; top: 0; z-index: 10;
-      background: #fff8;
+      background: #ffffffcc;
       backdrop-filter: saturate(1.2) blur(8px);
       border-bottom: 1px solid var(--border);
     }
@@ -39,7 +41,7 @@
     h1 { margin: 0; font-weight: 800; letter-spacing: -0.02em; }
     main.wrap { padding-top: 22px; }
     nav {
-      display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;
+      display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px;
     }
     nav a {
       text-decoration: none; color: var(--accent); font-weight: 600;
@@ -52,6 +54,7 @@
       border-radius: var(--radius);
       padding: 18px;
       margin: 18px 0 28px;
+      scroll-margin-top: 90px;
     }
     .section h2 { margin-top: 0; }
     .tip {
@@ -60,14 +63,30 @@
       padding: 10px 12px; border-radius: 10px; margin: 12px 0;
     }
     pre {
+      position: relative;
       overflow-x: auto;
       border-radius: 12px;
       border: 1px solid var(--border);
+      background: var(--code-bg);
+      margin: 0;
     }
     code { font-size: 0.95rem; }
+    .code-block { margin-top: 12px; }
+    .code-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 12px; background: #fff; border: 1px solid var(--border);
+      border-radius: 10px 10px 0 0; border-bottom: none;
+      font-size: 0.95rem; color: #333;
+    }
+    .copy-btn {
+      appearance: none; border: 1px solid var(--border); background: white; color: var(--accent);
+      border-radius: 8px; padding: 6px 10px; font-weight: 600; cursor: pointer;
+    }
+    .copy-btn:active { transform: translateY(1px); }
     ol.step { padding-left: 1.1rem; }
     ol.step > li { margin: 10px 0; }
     footer { color: var(--muted); font-size: 0.95rem; margin: 40px 0 20px; }
+    .filepath { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; color: #333; }
   </style>
 </head>
 <body>
@@ -81,7 +100,8 @@
       <a href="#layout">Layout XML</a>
       <a href="#manifest">AndroidManifest</a>
       <a href="#strings">strings.xml</a>
-      <a href="#themes">themes.xml (optional)</a>
+      <a href="#themes">themes.xml</a>
+      <a href="#map">Folder Map</a>
     </nav>
   </div>
 </header>
@@ -91,25 +111,202 @@
   <section id="setup" class="section">
     <h2>📌 1) Setup Guide (Android Studio)</h2>
     <ol class="step">
-      <li><strong>Create project:</strong> Open Android Studio → <em>New Project</em> → <em>Empty Activity</em> → Package name <code>com.symbiosis.myfrstproject_it</code>.</li>
-      <li><strong>Create Activity file:</strong> In <em>app/src/main/java/com/symbiosis/myfrstproject_it/</em> add a new Java Class named <code>index</code> (lowercase class name works but <em>Index</em> is conventional). Paste the Java code from the next section.</li>
-      <li><strong>Create the layout:</strong> In <em>app/src/main/res/layout/</em> create <code>activity_index.xml</code> and paste the layout XML.</li>
-      <li><strong>Update <code>AndroidManifest.xml</code>:</strong> Make <code>.index</code> the launcher activity (we do this below).</li>
-      <li><strong>Set strings:</strong> In <em>app/src/main/res/values/strings.xml</em> add <code>app_name</code> and <code>hello_message</code>.</li>
-      <li><strong>Run the app:</strong> Click ▶️ Run on an emulator or connected device.</li>
+      <li><strong>Create project:</strong> Android Studio → <em>New Project</em> → <em>Empty Activity</em> → Package name <code>com.symbiosis.myfrstproject_it</code>.</li>
+      <li><strong>Create Activity file:</strong> In <span class="filepath">app/src/main/java/com/symbiosis/myfrstproject_it/</span> create <code>index.java</code>.</li>
+      <li><strong>Create layout file:</strong> In <span class="filepath">app/src/main/res/layout/</span> create <code>activity_index.xml</code>.</li>
+      <li><strong>Update <code>AndroidManifest.xml</code>:</strong> Make <code>.index</code> the launcher activity.</li>
+      <li><strong>Edit strings:</strong> In <span class="filepath">app/src/main/res/values/strings.xml</span> add <code>app_name</code> and <code>hello_message</code>.</li>
+      <li><strong>(Optional) Theme:</strong> Ensure <code>Theme.MyFrstProjectIT</code> exists in <span class="filepath">values/themes.xml</span>.</li>
+      <li><strong>Run:</strong> Click ▶️ to run on an emulator or device.</li>
     </ol>
     <div class="tip">
-      <strong>Tip:</strong> Java class names usually start with uppercase (e.g., <code>Index</code>). If you rename the class, also update the Manifest’s <code>android:name</code>.
+      <strong>Note:</strong> Class names in Java usually start uppercase (e.g., <code>Index</code>). If you change it, also update <code>android:name</code> in the Manifest.
     </div>
   </section>
 
   <!-- JAVA -->
   <section id="java" class="section">
     <h2>🧩 2) Java Activity (<code>index.java</code>)</h2>
-    <pre><code class="language-java">package com.symbiosis.myfrstproject_it;
+    <div class="code-block">
+      <div class="code-head">
+        <div>📄 app/src/main/java/com/symbiosis/myfrstproject_it/index.java</div>
+        <button class="copy-btn" data-target="code-java">Copy</button>
+      </div>
+      <pre><code id="code-java" class="language-java">package com.symbiosis.myfrstproject_it;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class index extends AppCompatActivity {
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Link this activity to your XML layout file
+        setContentView(R.layout.activity_index);
+    }
+}
+</code></pre>
+    </div>
+  </section>
+
+  <!-- LAYOUT -->
+  <section id="layout" class="section">
+    <h2>🎨 3) Layout XML (<code>activity_index.xml</code>)</h2>
+    <div class="code-block">
+      <div class="code-head">
+        <div>📄 app/src/main/res/layout/activity_index.xml</div>
+        <button class="copy-btn" data-target="code-layout">Copy</button>
+      </div>
+      <pre><code id="code-layout" class="language-xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"&gt;
+
+    &lt;TextView
+        android:id="@+id/myTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_message"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:layout_centerInParent="true" /&gt;
+
+&lt;/RelativeLayout&gt;
+</code></pre>
+    </div>
+  </section>
+
+  <!-- MANIFEST -->
+  <section id="manifest" class="section">
+    <h2>🗂️ 4) AndroidManifest.xml</h2>
+    <div class="code-block">
+      <div class="code-head">
+        <div>📄 app/src/main/AndroidManifest.xml</div>
+        <button class="copy-btn" data-target="code-manifest">Copy</button>
+      </div>
+      <pre><code id="code-manifest" class="language-xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"&gt;
+
+    &lt;application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MyFrstProjectIT"&gt;
+
+        &lt;!-- Optional: Keep MainActivity if created by template. Not a launcher. --&gt;
+        &lt;activity
+            android:name=".MainActivity"
+            android:exported="false" /&gt;
+
+        &lt;!-- Make `index` the launcher Activity --&gt;
+        &lt;activity
+            android:name=".index"
+            android:exported="true"
+            android:theme="@style/Theme.MyFrstProjectIT"&gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name="android.intent.action.MAIN" /&gt;
+                &lt;category android:name="android.intent.category.LAUNCHER" /&gt;
+            &lt;/intent-filter&gt;
+        &lt;/activity&gt;
+
+    &lt;/application&gt;
+
+&lt;/manifest&gt;
+</code></pre>
+    </div>
+  </section>
+
+  <!-- STRINGS -->
+  <section id="strings" class="section">
+    <h2>🔤 5) strings.xml</h2>
+    <div class="code-block">
+      <div class="code-head">
+        <div>📄 app/src/main/res/values/strings.xml</div>
+        <button class="copy-btn" data-target="code-strings">Copy</button>
+      </div>
+      <pre><code id="code-strings" class="language-xml">&lt;resources&gt;
+    &lt;string name="app_name"&gt;My Frst Project-IT&lt;/string&gt;
+    &lt;string name="hello_message"&gt;Hello from Android!&lt;/string&gt;
+    &lt;string name="action_settings"&gt;Settings&lt;/string&gt;
+&lt;/resources&gt;
+</code></pre>
+    </div>
+  </section>
+
+  <!-- THEMES -->
+  <section id="themes" class="section">
+    <h2>🎛️ 6) themes.xml (optional)</h2>
+    <div class="code-block">
+      <div class="code-head">
+        <div>📄 app/src/main/res/values/themes.xml</div>
+        <button class="copy-btn" data-target="code-themes">Copy</button>
+      </div>
+      <pre><code id="code-themes" class="language-xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;resources xmlns:tools="http://schemas.android.com/tools"&gt;
+    &lt;style name="Theme.MyFrstProjectIT" parent="Theme.Material3.Light.NoActionBar"&gt;
+        &lt;item name="android:statusBarColor"&gt;@android:color/transparent&lt;/item&gt;
+        &lt;item name="android:navigationBarColor"&gt;@android:color/white&lt;/item&gt;
+    &lt;/style&gt;
+&lt;/resources&gt;
+</code></pre>
+    </div>
+    <div class="tip">
+      Make sure your app’s theme in the Manifest is <code>@style/Theme.MyFrstProjectIT</code>.
+    </div>
+  </section>
+
+  <!-- FOLDER MAP -->
+  <section id="map" class="section">
+    <h2>🗺️ Folder Structure Map</h2>
+    <pre><code>app/
+ └── src/
+      └── main/
+           ├── AndroidManifest.xml
+           ├── java/
+           │    └── com/
+           │         └── symbiosis/
+           │              └── myfrstproject_it/
+           │                   └── index.java
+           └── res/
+                ├── layout/
+                │    └── activity_index.xml
+                ├── values/
+                │    ├── strings.xml
+                │    └── themes.xml
+</code></pre>
+  </section>
+
+  <footer>
+    Tip: If you want a downloadable ZIP template or a print-to-PDF button on this page, tell me and I’ll add it for you.
+  </footer>
+</main>
+
+<script>
+  // Copy buttons
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const id = btn.getAttribute('data-target');
+      const codeEl = document.getElementById(id);
+      if (!codeEl) return;
+      const text = codeEl.innerText;
+      try {
+        await navigator.clipboard.writeText(text);
+        const prev = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => (btn.textContent = prev), 1200);
+      } catch (e) {
+        alert('Copy failed. Please copy manually.');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
